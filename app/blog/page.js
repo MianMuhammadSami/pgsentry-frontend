@@ -6,7 +6,7 @@ import { BLOG_POSTS } from './data';
 export const metadata = {
   title: 'Blog – PostgreSQL Tips, Partitioning, Indexing & Monitoring',
   description: 'Expert articles on PostgreSQL, PGSQL slow queries, partitioning, indexing, replication, and bloat. Learn how pgSentry helps you monitor and fix Postgres issues.',
-  keywords: ['PostgreSQL blog', 'PGSQL', 'Postgres partitioning', 'indexing', 'slow queries', 'database monitoring', 'pgSentry'],
+  keywords: ['PostgreSQL blog', 'PGSQL', 'Postgres partitioning', 'indexing', 'slow queries', 'database monitoring', 'pgSentry', 'replication lag', 'Postgres bloat'],
   openGraph: {
     title: 'Blog | pgSentry – PostgreSQL Monitoring & Best Practices',
     description: 'Expert articles on PostgreSQL, slow queries, partitioning, indexing, and more.',

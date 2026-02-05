@@ -47,8 +47,20 @@ export default async function BlogPostPage({ params }) {
     );
   }
 
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    author: { '@type': 'Organization', name: 'pgSentry', url: 'https://pgsentry.com' },
+    publisher: { '@type': 'Organization', name: 'pgSentry', logo: { '@type': 'ImageObject', url: 'https://pgsentry.com/pgsentry-logo.png' } },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://pgsentry.com/blog/${post.slug}` },
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <NavBar />
       <main className="blog-main blog-post">
         <nav className="blog-breadcrumb" aria-label="Breadcrumb">

@@ -15,7 +15,7 @@ export default function LandingContent() {
                     <div className="hero-content">
                         <div className="fade-in">
                             <span className="pill-badge">
-                                <span className="dot green pulse"></span> New: Real-time Postgres Health Checks
+                                The first PostgreSQL micro-DBA
                             </span>
                         </div>
 
@@ -25,7 +25,10 @@ export default function LandingContent() {
                         </h1>
 
                         <p className="hero-sub fade-in delay-200">
-                            The micro-DBA for modern engineering teams. Detect replication lag, bloat, and slow queries — before they become incidents.
+                            PostgreSQL-only. The micro-DBA for modern engineering teams — detect replication lag, bloat, and slow queries before they become incidents.
+                        </p>
+                        <p className="hero-note fade-in delay-200">
+                            Built for Postgres only. No MySQL, no Mongo — 100% PostgreSQL.
                         </p>
 
                         <div className="hero-actions fade-in delay-300">
@@ -186,6 +189,13 @@ export default function LandingContent() {
                     font-size: 19px;
                     color: var(--foreground-muted);
                     line-height: 1.6;
+                    max-width: 580px;
+                    margin-bottom: 12px;
+                }
+                .hero-note {
+                    font-size: 14px;
+                    color: var(--foreground-subtle);
+                    line-height: 1.5;
                     max-width: 580px;
                     margin-bottom: 40px;
                 }

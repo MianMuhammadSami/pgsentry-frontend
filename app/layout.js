@@ -6,11 +6,16 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: {
-    default: "pgSentry - PostgreSQL Health Monitoring",
+    default: "pgSentry - PostgreSQL Health Monitoring & Micro-DBA",
     template: "%s | pgSentry"
   },
-  description: "Catch Postgres issues before they become incidents. Monitoring, alerts, and weekly reports for RDS, Supabase, and more.",
-  keywords: ["PostgreSQL", "Postgres", "PGSQL", "database monitoring", "DBA", "pgSentry", "partitioning", "indexing", "slow queries", "query optimization"],
+  description: "Catch Postgres issues before they become incidents. Monitor replication lag, bloat, slow queries, and indexing. The micro-DBA for RDS, Supabase, Neon, and self-hosted PostgreSQL.",
+  keywords: [
+    "PostgreSQL", "Postgres", "PGSQL", "database monitoring", "DBA", "pgSentry",
+    "partitioning", "table partitioning", "indexing", "slow queries", "query optimization",
+    "replication lag", "WAL", "Postgres bloat", "VACUUM", "RDS monitoring", "Supabase monitoring",
+    "Postgres health check", "database performance",
+  ],
   metadataBase: new URL('https://pgsentry.com'),
   icons: {
     icon: [
@@ -25,7 +30,7 @@ export const metadata = {
     locale: 'en_US',
     url: 'https://pgsentry.com',
     siteName: 'pgSentry',
-    images: [{ url: '/pgsentry-logo.png', width: 512, height: 512, alt: 'pgSentry' }],
+    images: [{ url: '/pgsentry-logo.png', width: 512, height: 512, alt: 'pgSentry - PostgreSQL monitoring' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -34,9 +39,14 @@ export const metadata = {
   alternates: {
     canonical: 'https://pgsentry.com',
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
 };
 
-const jsonLd = {
+const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'pgSentry',
@@ -46,13 +56,31 @@ const jsonLd = {
   sameAs: [],
 };
 
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'pgSentry',
+  url: 'https://pgsentry.com',
+  description: 'PostgreSQL health monitoring. Monitor replication lag, bloat, slow queries, and indexing.',
+  publisher: { '@type': 'Organization', name: 'pgSentry', url: 'https://pgsentry.com' },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: 'https://pgsentry.com/blog?q={search_term_string}' },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
         />
         <AuthProvider>
           {children}
