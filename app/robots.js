@@ -3,8 +3,9 @@ export default function robots() {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: ['/dashboard/', '/api/'],
+            disallow: ['/dashboard/', '/api/', '/login/'],
         },
         sitemap: 'https://pgsentry.com/sitemap.xml',
-    }
+        host: 'https://pgsentry.com',
+    };
 }

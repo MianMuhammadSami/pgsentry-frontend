@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
     return (
@@ -8,7 +9,9 @@ export default function Footer() {
             <div className="container">
                 <div className="footer-grid">
                     <div className="col brand-col">
-                        <div className="logo">pgSentry</div>
+                        <Link href="/" className="footer-logo" aria-label="pgSentry Home">
+                            <Image src="/pgsentry-logo.png" alt="" width={120} height={44} style={{ objectFit: 'contain' }} />
+                        </Link>
                         <p>The micro-DBA for modern engineering teams. Catch Postgres issues before they become incidents.</p>
                         <div className="copy">&copy; {new Date().getFullYear()} pgSentry. All rights reserved.</div>
                     </div>
@@ -21,7 +24,8 @@ export default function Footer() {
                     </div>
 
                     <div className="col">
-                        <h4>Company</h4>
+                        <h4>Resources</h4>
+                        <Link href="/blog">Blog</Link>
                         <Link href="/about">About Us</Link>
                         <a href="https://www.linkedin.com/in/mian-muhammad-sami/" target="_blank" rel="noopener noreferrer">Contact</a>
                     </div>
@@ -52,11 +56,18 @@ export default function Footer() {
                 @media(max-width: 480px) {
                     .footer-grid { grid-template-columns: 1fr; }
                 }
-                .logo {
-                    font-weight: 700;
-                    font-size: 17px;
-                    color: var(--foreground);
-                    margin-bottom: 10px;
+                .footer-logo {
+                    display: inline-block;
+                    text-decoration: none;
+                    margin-bottom: 14px;
+                    height: 44px;
+                }
+                .footer-logo img {
+                    height: 44px;
+                    width: auto;
+                    max-width: 140px;
+                    object-fit: contain;
+                    border-radius: 6px;
                 }
                 .brand-col p {
                     font-size: 14px;

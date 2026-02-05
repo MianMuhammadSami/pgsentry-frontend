@@ -1,4 +1,13 @@
+import { BLOG_POSTS } from './blog/data';
+
 export default function sitemap() {
+    const blogUrls = BLOG_POSTS.map((post) => ({
+        url: `https://pgsentry.com/blog/${post.slug}`,
+        lastModified: new Date(post.date),
+        changeFrequency: 'monthly',
+        priority: 0.8,
+    }));
+
     return [
         {
             url: 'https://pgsentry.com',
@@ -6,6 +15,13 @@ export default function sitemap() {
             changeFrequency: 'weekly',
             priority: 1,
         },
+        {
+            url: 'https://pgsentry.com/blog',
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        ...blogUrls,
         {
             url: 'https://pgsentry.com/about',
             lastModified: new Date(),
@@ -24,5 +40,23 @@ export default function sitemap() {
             changeFrequency: 'monthly',
             priority: 0.5,
         },
-    ]
+        {
+            url: 'https://pgsentry.com/privacy',
+            lastModified: new Date(),
+            changeFrequency: 'yearly',
+            priority: 0.3,
+        },
+        {
+            url: 'https://pgsentry.com/terms',
+            lastModified: new Date(),
+            changeFrequency: 'yearly',
+            priority: 0.3,
+        },
+        {
+            url: 'https://pgsentry.com/cookies',
+            lastModified: new Date(),
+            changeFrequency: 'yearly',
+            priority: 0.3,
+        },
+    ];
 }

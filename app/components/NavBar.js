@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 
@@ -9,17 +10,18 @@ export default function NavBar() {
     const { user } = useAuth();
 
     const isActive = (path) => pathname === path ? 'active' : '';
+    const isBlogActive = pathname?.startsWith('/blog');
 
     return (
         <nav className="navbar">
             <div className="nav-inner">
-                <Link href="/" className="nav-logo">
-                    <div className="logo-mark"></div>
-                    <span className="logo-text">pgSentry</span>
+                <Link href="/" className="nav-logo" aria-label="pgSentry Home">
+                    <Image src="/pgsentry-logo.png" alt="" width={120} height={40} className="logo-img" style={{ objectFit: 'contain' }} />
                 </Link>
 
                 <div className="nav-links">
                     <Link href="/" className={`nav-link ${isActive('/')}`}>Home</Link>
+                    <Link href="/blog" className={`nav-link ${isBlogActive ? 'active' : ''}`}>Blog</Link>
                     <Link href="/about" className={`nav-link ${isActive('/about')}`}>About</Link>
                     <Link href="/request" className={`nav-link ${isActive('/request')}`}>Features</Link>
                     <Link href="/analysis" className={`nav-link ${isActive('/analysis')}`}>Free Analysis</Link>
@@ -60,20 +62,15 @@ export default function NavBar() {
                 .nav-logo {
                     display: flex;
                     align-items: center;
-                    gap: 10px;
                     text-decoration: none;
+                    height: 40px;
                 }
-                .logo-mark {
-                    width: 28px;
-                    height: 28px;
-                    border-radius: 8px;
-                    background: linear-gradient(135deg, #3b82f6, #10b981);
-                }
-                .logo-text {
-                    font-size: 18px;
-                    font-weight: 700;
-                    color: var(--foreground);
-                    letter-spacing: -0.03em;
+                .logo-img {
+                    height: 40px;
+                    width: auto;
+                    max-width: 140px;
+                    object-fit: contain;
+                    border-radius: 6px;
                 }
                 .nav-links {
                     display: flex;

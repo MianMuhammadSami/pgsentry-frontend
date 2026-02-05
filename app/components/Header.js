@@ -2,19 +2,39 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 
+const BREADCRUMB_MAP = {
+    '/dashboard': 'Dashboard',
+    '/dashboard/databases': 'Databases',
+    '/dashboard/query-optimizer': 'Query Optimizer',
+    '/dashboard/settings': 'Settings',
+};
+
+function getBreadcrumbLabel(pathname) {
+    if (pathname in BREADCRUMB_MAP) return BREADCRUMB_MAP[pathname];
+    const match = Object.keys(BREADCRUMB_MAP).find(path => path !== '/dashboard' && pathname.startsWith(path));
+    return match ? BREADCRUMB_MAP[match] : 'Dashboard';
+}
+
 export default function Header({ env = "Production" }) {
+    const pathname = usePathname();
     const { user, logout } = useAuth();
     const [menuOpen, setMenuOpen] = useState(false);
+    const breadcrumb = getBreadcrumbLabel(pathname || '/dashboard');
 
     return (
         <header className="app-header">
             <div className="header-inner">
                 <div className="brand">
-                    <Link href="/" className="logo-text">pgSentry</Link>
+                    <Link href="/" className="logo-link">
+                        <Image src="/pgsentry-logo.png" alt="pgSentry" width={28} height={28} className="logo-img" />
+                        <span className="logo-text">pgSentry</span>
+                    </Link>
                     <span className="divider">/</span>
-                    <span className="context">Dashboard</span>
+                    <span className="context">{breadcrumb}</span>
                 </div>
 
                 <div className="actions">
@@ -63,6 +83,8 @@ export default function Header({ env = "Production" }) {
                     align-items: center;
                 }
                 .brand { display: flex; align-items: center; gap: 10px; }
+                .logo-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+                .logo-img { border-radius: 6px; flex-shrink: 0; }
                 .logo-text { font-weight: 700; color: var(--foreground); font-size: 17px; }
                 .divider { color: var(--border); font-size: 18px; }
                 .context { color: var(--foreground-muted); font-size: 14px; }
