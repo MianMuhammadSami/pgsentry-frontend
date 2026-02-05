@@ -39,7 +39,7 @@ export default function QueryOptimizerPage() {
         try {
             const res = await fetch(`${API}/api/query/explain`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'X-Auth-User': user?.id || '' },
                 body: JSON.stringify({ connectionId: selectedId, query: query.trim() })
             });
             const data = await res.json();

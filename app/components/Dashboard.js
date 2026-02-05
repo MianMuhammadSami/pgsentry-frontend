@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -14,6 +15,7 @@ function Badge({ kind, children }) {
 }
 
 export default function Dashboard({ report, onRefresh, connectionId }) {
+    const { user } = useAuth();
     const [insights, setInsights] = useState([]);
     const [insightsLoading, setInsightsLoading] = useState(false);
 
@@ -55,10 +57,12 @@ export default function Dashboard({ report, onRefresh, connectionId }) {
         : 'No issues detected. Your database looks healthy.';
 
     const fetchInsights = async () => {
-        if (!connectionId) return;
+        if (!connectionId || !user?.id) return;
         setInsightsLoading(true);
         try {
-            const res = await fetch(`${API}/api/insights/suggest?connectionId=${connectionId}`);
+            const res = await fetch(`${API}/api/insights/suggest?connectionId=${connectionId}`, {
+                headers: { 'X-Auth-User': user.id }
+            });
             if (res.ok) {
                 const data = await res.json();
                 setInsights(data.recommendations || []);

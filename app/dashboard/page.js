@@ -32,10 +32,12 @@ export default function DashboardStatsPage() {
   }, [user]);
 
   useEffect(() => {
-    if (!selectedId) return;
+    if (!selectedId || !user?.id) return;
     const fetchReport = async () => {
       try {
-        const res = await fetch(`${API}/api/report/latest?connectionId=${selectedId}`);
+        const res = await fetch(`${API}/api/report/latest?connectionId=${selectedId}`, {
+          headers: { 'X-Auth-User': user.id }
+        });
         if (res.ok) {
           const data = await res.json();
           setReport(data);
@@ -43,17 +45,22 @@ export default function DashboardStatsPage() {
       } catch (e) { console.error(e); }
     };
     fetchReport();
-  }, [selectedId]);
+  }, [selectedId, user?.id]);
 
   const handleRefresh = async () => {
+    if (!user?.id) return;
     setReport(null);
+    const headers = { 'X-Auth-User': user.id };
     try {
-      const res = await fetch(`${API}/api/report/refresh?connectionId=${selectedId}`, { method: 'POST' });
+      const res = await fetch(`${API}/api/report/refresh?connectionId=${selectedId}`, {
+        method: 'POST',
+        headers
+      });
       if (res.ok) {
         const data = await res.json();
         setReport(data);
       } else {
-        const fallback = await fetch(`${API}/api/report/latest?connectionId=${selectedId}`);
+        const fallback = await fetch(`${API}/api/report/latest?connectionId=${selectedId}`, { headers });
         if (fallback.ok) setReport(await fallback.json());
       }
     } catch (e) { console.error(e); }
