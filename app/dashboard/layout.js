@@ -62,6 +62,11 @@ export default function DashboardLayout({ children }) {
                 <polyline points="8 11 10 13 16 7"/>
             </svg>
         ),
+        feedback: (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+        ),
         arrow: (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"/>
@@ -75,6 +80,7 @@ export default function DashboardLayout({ children }) {
         { href: '/dashboard/query-optimizer', label: 'Query Optimizer', icon: Icons.optimizer },
         { href: '/dashboard/databases', label: 'Databases', icon: Icons.databases },
         { href: '/dashboard/settings', label: 'Settings', icon: Icons.settings },
+        { href: '/dashboard/feedback', label: 'Feedback', icon: Icons.feedback },
     ];
 
     return (

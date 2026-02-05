@@ -12,9 +12,11 @@ export default function DashboardStatsPage() {
   const [selectedId, setSelectedId] = useState("");
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState(null);
   const { user } = useAuth();
 
   useEffect(() => {
+    setApiError(null);
     const fetchConns = async () => {
       try {
         const res = await fetch(`${API}/api/db/list`, {
@@ -25,8 +27,12 @@ export default function DashboardStatsPage() {
           setConnections(data);
           if (data.length > 0) setSelectedId(data[0].id);
         }
-      } catch (e) { console.error(e); }
-      finally { setLoading(false); }
+      } catch (e) {
+        console.error(e);
+        setApiError('Could not reach the API. If you\'re running locally, start the backend (e.g. port 8000).');
+      } finally {
+        setLoading(false);
+      }
     };
     if (user) fetchConns();
   }, [user]);
@@ -67,6 +73,22 @@ export default function DashboardStatsPage() {
   };
 
   if (loading) return <div className="loading-center">Loading…</div>;
+
+  if (apiError) {
+    return (
+      <div className="empty-dashboard fade-in">
+        <div className="empty-icon">⚠️</div>
+        <h2>Connection problem</h2>
+        <p>{apiError}</p>
+        <style jsx>{`
+          .empty-dashboard { text-align: center; padding: 100px 24px; }
+          .empty-icon { font-size: 48px; margin-bottom: 20px; }
+          h2 { margin-bottom: 10px; }
+          p { color: var(--foreground-muted); margin-bottom: 24px; font-size: 15px; max-width: 420px; margin-left: auto; margin-right: auto; }
+        `}</style>
+      </div>
+    );
+  }
 
   if (connections.length === 0) {
     return (

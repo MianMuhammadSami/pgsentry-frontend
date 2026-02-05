@@ -10,6 +10,7 @@ const BREADCRUMB_MAP = {
     '/dashboard/databases': 'Databases',
     '/dashboard/query-optimizer': 'Query Optimizer',
     '/dashboard/settings': 'Settings',
+    '/dashboard/feedback': 'Feedback',
 };
 
 function getBreadcrumbLabel(pathname) {
