@@ -1,12 +1,12 @@
 "use client";
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import Header from '../components/Header';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 export default function DashboardLayout({ children }) {
     const pathname = usePathname();
@@ -67,39 +67,44 @@ export default function DashboardLayout({ children }) {
 
     const navItems = [
         { href: '/dashboard', label: 'Dashboard', icon: Icons.dashboard },
-        { href: '/dashboard/databases', label: 'Databases', icon: Icons.databases },
         { href: '/dashboard/query-optimizer', label: 'Query Optimizer', icon: Icons.optimizer },
+        { href: '/dashboard/databases', label: 'Databases', icon: Icons.databases },
         { href: '/dashboard/settings', label: 'Settings', icon: Icons.settings },
     ];
 
     return (
         <div className="dashboard-shell">
-            <aside className="sidebar">
-                <Link href="/" className="sidebar-brand" aria-label="pgSentry Home">
-                    <Image src="/pgsentry-logo.png" alt="" width={132} height={36} className="sb-logo" style={{ objectFit: 'contain' }} />
+            <aside className="dashboard-sidebar">
+                <Link href="/" className="dashboard-sidebar-brand" aria-label="pgSentry Home">
+                    <Image src="/pgsentry-logo.png" alt="" width={132} height={36} className="logo-transparent" style={{ objectFit: 'contain' }} />
                 </Link>
 
-                <nav className="nav-group" aria-label="Platform navigation">
-                    <span className="nav-group-label">Platform</span>
+                <nav className="dashboard-nav-group" aria-label="Platform navigation">
+                    <span className="dashboard-nav-group-label">Platform</span>
                     {navItems.map(item => (
-                        <Link key={item.href} href={item.href} className={`nav-item ${isActive(item.href)}`}>
-                            <span className="nav-item-icon">{item.icon}</span>
-                            <span className="nav-item-text">{item.label}</span>
+                        <Link key={item.href} href={item.href} className={`dashboard-nav-item ${isActive(item.href)}`}>
+                            <span className="dashboard-nav-item-icon">{item.icon}</span>
+                            <span className="dashboard-nav-item-text">{item.label}</span>
                         </Link>
                     ))}
                 </nav>
 
-                <nav className="nav-group bottom">
-                    <Link href="/" className="nav-item nav-item-back">
-                        <span className="nav-item-icon">{Icons.arrow}</span>
-                        <span className="nav-item-text">Back to Home</span>
+                <nav className="dashboard-nav-group dashboard-nav-group-bottom">
+                    <Link href="/" className="dashboard-nav-item dashboard-nav-item-back">
+                        <span className="dashboard-nav-item-icon">{Icons.arrow}</span>
+                        <span className="dashboard-nav-item-text">Back to Home</span>
                     </Link>
                 </nav>
             </aside>
 
-            <main className="main-area">
+            <main className="dashboard-main">
                 <Header env="Production" />
-                <div className="content-wrap">
+                <div className="dashboard-beta-notice">
+                    <span className="dashboard-beta-notice-text">
+                        <strong>Beta release.</strong> We&apos;re happy to hear your thoughts and the features you&apos;d like — <Link href="/contact" className="dashboard-beta-notice-link">contact us</Link>.
+                    </span>
+                </div>
+                <div className="dashboard-content">
                     {children}
                 </div>
             </main>
@@ -113,128 +118,46 @@ export default function DashboardLayout({ children }) {
                     color: var(--foreground-muted);
                     font-size: 15px;
                 }
-                .dashboard-shell {
-                    display: flex;
-                    min-height: 100vh;
-                    background: var(--background);
-                }
-
-                /* ── Sidebar ── */
-                .sidebar {
-                    width: 260px;
-                    min-width: 260px;
-                    background: var(--surface);
-                    border-right: 1px solid var(--border);
-                    display: flex;
-                    flex-direction: column;
-                    padding: 24px 0;
-                    position: sticky;
-                    top: 0;
-                    height: 100vh;
-                    overflow-y: auto;
-                }
-                .sidebar-brand {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 0 20px 32px;
-                    margin-bottom: 8px;
-                    border-bottom: 1px solid var(--border);
-                    text-decoration: none;
-                }
-                .sb-logo {
-                    height: 36px;
-                    width: auto;
-                    max-width: 132px;
-                    object-fit: contain;
-                    border-radius: 6px;
-                }
-
-                .nav-group {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 2px;
-                    padding: 16px 12px;
-                    margin-bottom: 0;
-                }
-                .nav-group-label {
-                    font-size: 11px;
-                    font-weight: 600;
-                    color: var(--foreground-subtle);
-                    letter-spacing: 0.06em;
-                    padding: 0 12px 10px;
-                    margin-bottom: 4px;
-                }
-                .nav-item {
-                    display: flex;
-                    align-items: center;
-                    gap: 14px;
-                    padding: 12px 14px;
-                    border-radius: 10px;
-                    color: var(--foreground-muted);
-                    font-size: 14px;
-                    font-weight: 500;
-                    text-decoration: none;
-                    transition: background 0.2s, color 0.2s;
-                    min-width: 0;
-                    line-height: 1.3;
-                }
-                .nav-item:hover {
-                    background: var(--surface-alt, #fafafa);
-                    color: var(--foreground);
-                }
-                .nav-item.active {
-                    background: var(--accent-light);
-                    color: var(--accent-dark);
-                    font-weight: 600;
-                }
-                .nav-item-icon {
-                    width: 20px;
-                    height: 20px;
-                    min-width: 20px;
-                    flex-shrink: 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    opacity: 0.9;
-                }
-                .nav-item.active .nav-item-icon { opacity: 1; }
-                .nav-item-text {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-
-                .nav-group.bottom {
-                    margin-top: auto;
-                    border-top: 1px solid var(--border);
-                    padding-top: 16px;
-                    padding-bottom: 0;
-                }
-                .nav-item-back {
-                    color: var(--foreground-subtle);
-                    font-size: 13px;
-                }
-                .nav-item-back:hover { color: var(--foreground); }
-
-                /* ── Main ── */
-                .main-area {
+                .dashboard-main {
                     flex: 1;
                     display: flex;
                     flex-direction: column;
                     min-width: 0;
                 }
-                .content-wrap {
+                .dashboard-beta-notice {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 16px;
+                    padding: 12px 40px;
+                    background: var(--accent-light);
+                    border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+                    font-size: 14px;
+                    color: var(--accent-dark);
+                }
+                .dashboard-beta-notice-text {
+                    flex: 1;
+                    min-width: 0;
+                }
+                .dashboard-beta-notice-link {
+                    color: var(--accent-dark);
+                    font-weight: 600;
+                    text-decoration: underline;
+                    text-underline-offset: 2px;
+                }
+                .dashboard-beta-notice-link:hover {
+                    opacity: 0.9;
+                }
+                .dashboard-content {
                     padding: 32px 40px 60px;
                     max-width: 1100px;
                     width: 100%;
                     margin: 0 auto;
                     flex: 1;
                 }
-
-                @media(max-width: 768px) {
-                    .sidebar { display: none; }
-                    .content-wrap { padding: 24px 20px; }
+                @media (max-width: 768px) {
+                    .dashboard-beta-notice { padding: 12px 20px; }
+                    .dashboard-content { padding: 24px 20px; }
                 }
             `}</style>
         </div>

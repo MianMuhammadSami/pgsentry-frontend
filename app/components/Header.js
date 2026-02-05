@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 
@@ -29,10 +28,7 @@ export default function Header({ env = "Production" }) {
         <header className="app-header">
             <div className="header-inner">
                 <div className="brand">
-                    <Link href="/" className="logo-link">
-                        <Image src="/pgsentry-logo.png" alt="pgSentry" width={28} height={28} className="logo-img" />
-                        <span className="logo-text">pgSentry</span>
-                    </Link>
+                    <Link href="/" className="breadcrumb-root">micro-DBA</Link>
                     <span className="divider">/</span>
                     <span className="context">{breadcrumb}</span>
                 </div>
@@ -83,9 +79,13 @@ export default function Header({ env = "Production" }) {
                     align-items: center;
                 }
                 .brand { display: flex; align-items: center; gap: 10px; }
-                .logo-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
-                .logo-img { border-radius: 6px; flex-shrink: 0; }
-                .logo-text { font-weight: 700; color: var(--foreground); font-size: 17px; }
+                .breadcrumb-root {
+                    font-weight: 600;
+                    font-size: 15px;
+                    color: var(--foreground);
+                    text-decoration: none;
+                }
+                .breadcrumb-root:hover { color: var(--accent); }
                 .divider { color: var(--border); font-size: 18px; }
                 .context { color: var(--foreground-muted); font-size: 14px; }
 

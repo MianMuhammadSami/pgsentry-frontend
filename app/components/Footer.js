@@ -10,7 +10,7 @@ export default function Footer() {
                 <div className="footer-grid">
                     <div className="col brand-col">
                         <Link href="/" className="footer-logo" aria-label="pgSentry Home">
-                            <Image src="/pgsentry-logo.png" alt="" width={120} height={44} style={{ objectFit: 'contain' }} />
+                            <Image src="/pgsentry-logo.png" alt="" width={120} height={44} className="logo-transparent" style={{ objectFit: 'contain' }} />
                         </Link>
                         <p>The micro-DBA for modern engineering teams. Catch Postgres issues before they become incidents.</p>
                         <div className="copy">&copy; {new Date().getFullYear()} pgSentry. All rights reserved.</div>
@@ -27,7 +27,7 @@ export default function Footer() {
                         <h4>Resources</h4>
                         <Link href="/blog">Blog</Link>
                         <Link href="/about">About Us</Link>
-                        <a href="https://www.linkedin.com/in/mian-muhammad-sami/" target="_blank" rel="noopener noreferrer">Contact</a>
+                        <Link href="/contact">Contact</Link>
                     </div>
 
                     <div className="col">

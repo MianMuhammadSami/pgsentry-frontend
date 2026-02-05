@@ -41,6 +41,12 @@ export default function sitemap() {
             priority: 0.5,
         },
         {
+            url: 'https://pgsentry.com/contact',
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.6,
+        },
+        {
             url: 'https://pgsentry.com/privacy',
             lastModified: new Date(),
             changeFrequency: 'yearly',
