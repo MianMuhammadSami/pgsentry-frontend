@@ -33,7 +33,7 @@ export default function Dashboard({ report, onRefresh, connectionId }) {
         );
     }
 
-    const { kpi, alerts, recommendations, top_tables, transactions, long_running_queries, index_usage, top_queries, unused_indexes_detail, dead_tuples_detail } = report;
+    const { kpi, alerts, recommendations, top_tables, transactions, long_running_queries, index_usage, top_queries, unused_indexes_detail, dead_tuples_detail, blocking_queries = [], deadlocks = 0, temp_files = 0, temp_bytes = 0, status } = report;
 
     const fmt = (bytes) => {
         if (bytes == null || isNaN(bytes)) return "—";
@@ -47,6 +47,12 @@ export default function Dashboard({ report, onRefresh, connectionId }) {
     const connUsage = kpi.max_connections ? ((kpi.connections / kpi.max_connections) * 100).toFixed(1) : 0;
     const cacheHit  = Number(kpi.cache_hit_ratio || 0);
     const idxHit    = Number(kpi.index_hit_rate || 0);
+    const repLag    = Number(kpi.replication_lag) || 0;
+    const statusLabel = status === 'CRITICAL' ? 'Critical' : status === 'WARN' ? 'Needs attention' : 'Healthy';
+    const statusClass = status === 'CRITICAL' ? 'bad' : status === 'WARN' ? 'warn' : 'good';
+    const summaryText = alerts && alerts.length > 0
+        ? `${alerts.length} issue${alerts.length !== 1 ? 's' : ''} need attention. Check alerts below.`
+        : 'No issues detected. Your database looks healthy.';
 
     const fetchInsights = async () => {
         if (!connectionId) return;
@@ -71,10 +77,17 @@ export default function Dashboard({ report, onRefresh, connectionId }) {
                 <button className="btn secondary sm" onClick={onRefresh}>↻ Refresh</button>
             </div>
 
+            {/* Status + quick summary for non-DBAs */}
+            <div className="dash-status-row">
+                <Badge kind={statusClass}>{statusLabel}</Badge>
+                <span className="dash-summary">{summaryText}</span>
+            </div>
+
             {/* KPI Cards */}
             <div className="kpi-row">
                 <KpiCard label="DB Size" value={fmt(kpi.db_size)} sub="Total size on disk" />
                 <KpiCard label="Connections" value={`${kpi.connections || 0} / ${kpi.max_connections || '?'}`} sub={`${connUsage}% of limit`} highlight={connUsage > 80 ? 'warn' : connUsage > 95 ? 'bad' : ''} />
+                <KpiCard label="Replication Lag" value={repLag === 0 ? 'Primary' : `${repLag.toFixed(1)}s`} sub={repLag === 0 ? 'Not a replica' : repLag > 5 ? 'Check replica' : 'OK'} highlight={repLag > 60 ? 'bad' : repLag > 5 ? 'warn' : ''} />
                 <KpiCard label="Cache Hit" value={`${cacheHit.toFixed(1)}%`} sub={cacheHit > 95 ? 'Excellent' : cacheHit > 85 ? 'Good' : 'Needs attention'} highlight={cacheHit < 85 ? 'warn' : ''} />
                 <KpiCard label="Index Hit" value={`${idxHit.toFixed(1)}%`} sub={idxHit > 95 ? 'Healthy' : 'Check indexes'} highlight={idxHit < 80 ? 'warn' : ''} />
             </div>
@@ -153,15 +166,41 @@ export default function Dashboard({ report, onRefresh, connectionId }) {
                 )}
             </div>
 
+            {/* Blocking queries — who is blocking whom */}
+            {blocking_queries && blocking_queries.length > 0 && (
+                <Panel title="Blocking / Lock Waits" count={blocking_queries.length} icon="🔒">
+                    <p className="panel-hint-inline">One or more queries are waiting on locks held by other queries. Resolve by finishing or terminating the blocking session.</p>
+                    <div className="table-wrap">
+                        <table className="tbl">
+                            <thead><tr><th>Blocked PID</th><th>Blocking PID</th><th>Blocked (waiting)</th><th>Blocking (holder)</th><th>Wait time</th></tr></thead>
+                            <tbody>
+                                {blocking_queries.map((b, i) => (
+                                    <tr key={i}>
+                                        <td><code>{b.blocked_pid}</code></td>
+                                        <td><code>{b.blocking_pid}</code></td>
+                                        <td className="q-col"><code>{b.blocked_query}</code></td>
+                                        <td className="q-col"><code>{b.blocking_query}</code></td>
+                                        <td>{b.blocked_duration}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </Panel>
+            )}
+
             {/* Two-col: Transactions + Index Usage */}
             <div className="two-col">
                 {transactions && (
-                    <Panel title="Transactions" icon="💳">
+                    <Panel title="Transactions & Database Stats" icon="💳">
                         <StatRow label="Commits" value={num(transactions.commits)} />
                         <StatRow label="Rollbacks" value={num(transactions.rollbacks)} />
                         {transactions.commits > 0 && (
                             <StatRow label="Rollback Rate" value={((transactions.rollbacks / transactions.commits) * 100).toFixed(2) + '%'} />
                         )}
+                        <StatRow label="Deadlocks (lifetime)" value={num(deadlocks)} warn={deadlocks > 0} />
+                        <StatRow label="Temp files written" value={num(temp_files)} warn={temp_files > 0} />
+                        {temp_bytes > 0 && <StatRow label="Temp data size" value={fmt(temp_bytes)} />}
                     </Panel>
                 )}
 
@@ -195,20 +234,23 @@ export default function Dashboard({ report, onRefresh, connectionId }) {
                 </Panel>
             )}
 
-            {/* Dead Tuples per Table */}
+            {/* Dead Tuples per Table (with bloat %) */}
             {dead_tuples_detail && dead_tuples_detail.length > 0 && (
-                <Panel title="Dead Tuples by Table" count={dead_tuples_detail.length} icon="🧹">
+                <Panel title="Dead Tuples & Bloat by Table" count={dead_tuples_detail.length} icon="🧹">
                     <div className="table-wrap">
                         <table className="tbl">
-                            <thead><tr><th>Table</th><th>Dead Tuples</th><th>Live Tuples</th><th>Last Autovacuum</th></tr></thead>
+                            <thead><tr><th>Table</th><th>Dead Tuples</th><th>Live Tuples</th><th>Bloat %</th><th>Last Autovacuum</th></tr></thead>
                             <tbody>
                                 {dead_tuples_detail.map((row, i) => {
-                                    const ratio = row.live_tuples > 0 ? ((row.dead_tuples / row.live_tuples) * 100) : 0;
+                                    const total = (row.live_tuples || 0) + (row.dead_tuples || 0);
+                                    const bloatPct = total > 0 ? ((row.dead_tuples / total) * 100).toFixed(1) : '0';
+                                    const bloatNum = parseFloat(bloatPct);
                                     return (
                                         <tr key={i}>
                                             <td><code className="idx-table">{row.table}</code></td>
-                                            <td className={ratio > 20 ? 'val-warn' : 'val-ok'}>{num(row.dead_tuples)}</td>
+                                            <td className={bloatNum > 20 ? 'val-warn' : 'val-ok'}>{num(row.dead_tuples)}</td>
                                             <td>{num(row.live_tuples)}</td>
+                                            <td className={bloatNum > 20 ? 'val-warn' : 'val-ok'}>{bloatPct}%</td>
                                             <td className="idx-table">{row.last_autovacuum ? new Date(row.last_autovacuum).toLocaleString() : '—'}</td>
                                         </tr>
                                     );
@@ -216,9 +258,22 @@ export default function Dashboard({ report, onRefresh, connectionId }) {
                             </tbody>
                         </table>
                     </div>
-                    <p className="panel-hint">Tables with high dead tuples need VACUUM ANALYZE or pg_repack to reclaim space.</p>
+                    <p className="panel-hint">High bloat % means dead row versions are piling up. Run VACUUM ANALYZE or use pg_repack to reclaim space.</p>
                 </Panel>
             )}
+
+            {/* What this means — for non-DBAs */}
+            <details className="dash-glossary">
+                <summary>What these terms mean</summary>
+                <ul>
+                    <li><strong>Replication lag</strong> — How far behind a replica is. High lag risks data loss on failover.</li>
+                    <li><strong>Cache hit / Index hit</strong> — % of reads served from RAM. Low = more disk I/O, often fixable with more memory or better indexes.</li>
+                    <li><strong>Dead tuples / Bloat</strong> — Old row versions not yet reclaimed. VACUUM cleans them; high bloat slows queries and wastes space.</li>
+                    <li><strong>Blocking</strong> — One query holds a lock; others wait. Often resolved by finishing or cancelling the blocking query.</li>
+                    <li><strong>Temp files</strong> — Queries spilling to disk (sorts, hashes). Increasing work_mem can reduce this.</li>
+                    <li><strong>Unused indexes</strong> — Indexes never used; they slow writes and add bloat. Safe to drop after verification.</li>
+                </ul>
+            </details>
 
             {/* Recommendations / Insights */}
             <Panel title="Recommendations" icon="💡" action={
@@ -248,9 +303,19 @@ export default function Dashboard({ report, onRefresh, connectionId }) {
                 .dash-header { display:flex; justify-content:space-between; align-items:center; }
                 .dash-header h2 { font-size:22px; color:var(--foreground); }
 
+                /* Status + summary */
+                .dash-status-row { display:flex; align-items:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+                .dash-summary { font-size:14px; color:var(--foreground-muted); }
+                .panel-hint-inline { font-size:13px; color:var(--foreground-muted); margin-bottom:14px; line-height:1.5; }
+                /* Glossary */
+                .dash-glossary { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:0; }
+                .dash-glossary summary { padding:14px 18px; cursor:pointer; font-weight:600; font-size:14px; color:var(--foreground); }
+                .dash-glossary ul { margin:0 18px 18px; padding-left:20px; font-size:13px; color:var(--foreground-muted); line-height:1.6; }
+                .dash-glossary li { margin-bottom:8px; }
                 /* KPI */
-                .kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
-                @media(max-width:900px) { .kpi-row { grid-template-columns:repeat(2,1fr); } }
+                .kpi-row { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
+                @media(max-width:1100px) { .kpi-row { grid-template-columns:repeat(3,1fr); } }
+                @media(max-width:700px) { .kpi-row { grid-template-columns:repeat(2,1fr); } }
                 @media(max-width:480px) { .kpi-row { grid-template-columns:1fr; } }
 
                 /* Two col */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -12,12 +12,17 @@ export default function DashboardLayout({ children }) {
     const pathname = usePathname();
     const { user, loading } = useAuth();
     const router = useRouter();
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         if (!loading && !user) {
             router.push('/login');
         }
     }, [user, loading, router]);
+
+    useEffect(() => {
+        setMobileMenuOpen(false);
+    }, [pathname]);
 
     if (loading || !user) {
         return <div className="loading-screen">Loading…</div>;
@@ -74,7 +79,37 @@ export default function DashboardLayout({ children }) {
 
     return (
         <div className="dashboard-shell">
-            <aside className="dashboard-sidebar">
+            {/* Mobile menu button — visible only on small screens */}
+            <button
+                type="button"
+                className="dashboard-mobile-menu-btn"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Open menu"
+            >
+                <span className="dashboard-mobile-menu-icon" />
+                <span className="dashboard-mobile-menu-icon" />
+                <span className="dashboard-mobile-menu-icon" />
+            </button>
+
+            {/* Overlay when sidebar is open on mobile */}
+            {mobileMenuOpen && (
+                <div
+                    className="dashboard-sidebar-overlay"
+                    onClick={() => setMobileMenuOpen(false)}
+                    onKeyDown={(e) => e.key === 'Escape' && setMobileMenuOpen(false)}
+                    aria-hidden="true"
+                />
+            )}
+
+            <aside className={`dashboard-sidebar ${mobileMenuOpen ? 'dashboard-sidebar-open' : ''}`}>
+                <button
+                    type="button"
+                    className="dashboard-sidebar-close"
+                    onClick={() => setMobileMenuOpen(false)}
+                    aria-label="Close menu"
+                >
+                    ×
+                </button>
                 <Link href="/" className="dashboard-sidebar-brand" aria-label="pgSentry Home">
                     <Image src="/pgsentry-logo.png" alt="" width={132} height={36} className="logo-transparent" style={{ objectFit: 'contain' }} />
                 </Link>
@@ -82,7 +117,7 @@ export default function DashboardLayout({ children }) {
                 <nav className="dashboard-nav-group" aria-label="Platform navigation">
                     <span className="dashboard-nav-group-label">Platform</span>
                     {navItems.map(item => (
-                        <Link key={item.href} href={item.href} className={`dashboard-nav-item ${isActive(item.href)}`}>
+                        <Link key={item.href} href={item.href} className={`dashboard-nav-item ${isActive(item.href)}`} onClick={() => setMobileMenuOpen(false)}>
                             <span className="dashboard-nav-item-icon">{item.icon}</span>
                             <span className="dashboard-nav-item-text">{item.label}</span>
                         </Link>
@@ -90,7 +125,7 @@ export default function DashboardLayout({ children }) {
                 </nav>
 
                 <nav className="dashboard-nav-group dashboard-nav-group-bottom">
-                    <Link href="/" className="dashboard-nav-item dashboard-nav-item-back">
+                    <Link href="/" className="dashboard-nav-item dashboard-nav-item-back" onClick={() => setMobileMenuOpen(false)}>
                         <span className="dashboard-nav-item-icon">{Icons.arrow}</span>
                         <span className="dashboard-nav-item-text">Back to Home</span>
                     </Link>
@@ -155,9 +190,57 @@ export default function DashboardLayout({ children }) {
                     margin: 0 auto;
                     flex: 1;
                 }
+                .dashboard-mobile-menu-btn {
+                    display: none;
+                    position: fixed;
+                    top: 18px;
+                    left: 16px;
+                    z-index: 101;
+                    width: 44px;
+                    height: 44px;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 5px;
+                    background: var(--surface);
+                    border: 1px solid var(--border);
+                    border-radius: var(--radius);
+                    cursor: pointer;
+                    box-shadow: var(--shadow-sm);
+                }
+                .dashboard-mobile-menu-btn:hover { background: #f9fafb; }
+                .dashboard-mobile-menu-icon {
+                    display: block;
+                    width: 18px;
+                    height: 2px;
+                    background: var(--foreground);
+                    border-radius: 1px;
+                }
+                .dashboard-sidebar-close {
+                    display: none;
+                    position: absolute;
+                    top: 16px;
+                    right: 16px;
+                    width: 36px;
+                    height: 36px;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 24px;
+                    line-height: 1;
+                    color: var(--foreground-muted);
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: var(--radius);
+                }
+                .dashboard-sidebar-close:hover { background: #f3f4f6; color: var(--foreground); }
                 @media (max-width: 768px) {
+                    .dashboard-mobile-menu-btn { display: flex; }
+                    .dashboard-main :global(.app-header) {
+                        padding-left: 68px;
+                    }
                     .dashboard-beta-notice { padding: 12px 20px; }
-                    .dashboard-content { padding: 24px 20px; }
+                    .dashboard-content { padding: 24px 20px; padding-top: 56px; }
                 }
             `}</style>
         </div>

@@ -570,8 +570,41 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--foreground);
 }
 
+/* Mobile: sidebar becomes drawer; menu button shows */
 @media (max-width: 768px) {
   .dashboard-sidebar {
     display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 260px;
+    max-width: 85vw;
+    z-index: 100;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+    transition: transform 0.25s ease-out;
+    transform: translateX(-100%);
   }
+
+  .dashboard-sidebar.dashboard-sidebar-open {
+    display: flex;
+    transform: translateX(0);
+  }
+
+  .dashboard-sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 99;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .dashboard-sidebar.dashboard-sidebar-open .dashboard-sidebar-close {
+    display: flex;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
