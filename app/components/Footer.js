@@ -13,6 +13,9 @@ export default function Footer() {
                             <Image src="/pgsentry-logo.png" alt="" width={120} height={44} className="logo-transparent" style={{ objectFit: 'contain' }} />
                         </Link>
                         <p>The micro-DBA for modern engineering teams. Catch Postgres issues before they become incidents.</p>
+                        <a href="https://www.producthunt.com/products/pgsentry?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-pgsentry" target="_blank" rel="noopener noreferrer" className="product-hunt-badge">
+                            <img alt="pgSentry - PostgreSQL-only. The micro-DBA for modern engineering teams  | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1074523&theme=neutral&t=1770377509358" />
+                        </a>
                         <div className="copy">&copy; {new Date().getFullYear()} pgSentry. All rights reserved.</div>
                     </div>
 
@@ -75,6 +78,20 @@ export default function Footer() {
                     line-height: 1.6;
                     margin-bottom: 20px;
                     max-width: 260px;
+                }
+                .product-hunt-badge {
+                    display: inline-block;
+                    margin: 16px 0;
+                    transition: opacity 0.2s;
+                }
+                .product-hunt-badge:hover {
+                    opacity: 0.85;
+                }
+                .product-hunt-badge img {
+                    display: block;
+                    width: auto;
+                    height: auto;
+                    max-width: 100%;
                 }
                 .copy {
                     font-size: 13px;

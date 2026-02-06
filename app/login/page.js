@@ -50,11 +50,13 @@ export default function LoginPage() {
             const res = await fetch(`${API}/api/auth/verify-otp`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include', // Include cookies for refresh token
                 body: JSON.stringify({ email, code })
             });
             const data = await res.json();
             if (data.success) {
-                login(data.user);
+                // Pass both user data and access token to login
+                login(data.user, data.token);
                 router.push('/login/success');
             } else {
                 setError(data.message || 'Invalid code.');

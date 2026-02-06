@@ -20,7 +20,7 @@ GRANT CONNECT ON DATABASE your_database_name TO pgsentry_monitor;
 -- GRANT EXECUTE ON FUNCTION pg_stat_statements_reset() TO pgsentry_monitor;`;
 
 export default function ConnectionForm({ onConnect }) {
-    const { user } = useAuth();
+    const { user, getAuthHeaders } = useAuth();
     const [whitelistIps, setWhitelistIps] = useState([]);
     const [formData, setFormData] = useState({
         dbName: "", host: "", port: 5432, database: "", schema: "public",
@@ -70,7 +70,10 @@ export default function ConnectionForm({ onConnect }) {
         try {
             const res = await fetch(`${API}/api/db/connect`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-Auth-User': user?.id || '' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getAuthHeaders()
+                },
                 body: JSON.stringify(formData)
             });
             const data = await res.json();

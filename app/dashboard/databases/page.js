@@ -11,12 +11,12 @@ export default function DatabasesPage() {
     const [view, setView] = useState("list");
     const [connections, setConnections] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { user } = useAuth();
+    const { user, getAuthHeaders } = useAuth();
 
     const fetchConnections = async () => {
         try {
             const res = await fetch(`${API}/api/db/list`, {
-                headers: { 'X-Auth-User': user?.id || '' }
+                headers: getAuthHeaders()
             });
             if (res.ok) setConnections(await res.json());
         } catch (e) { console.error(e); }
@@ -32,7 +32,7 @@ export default function DatabasesPage() {
         try {
             const res = await fetch(`${API}/api/db/delete?connectionId=${id}`, {
                 method: 'DELETE',
-                headers: { 'X-Auth-User': user?.id || '' }
+                headers: getAuthHeaders()
             });
             if (res.ok) fetchConnections();
         } catch (e) { console.error(e); }

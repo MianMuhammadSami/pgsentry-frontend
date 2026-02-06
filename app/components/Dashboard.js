@@ -15,7 +15,7 @@ function Badge({ kind, children }) {
 }
 
 export default function Dashboard({ report, onRefresh, connectionId }) {
-    const { user } = useAuth();
+    const { user, getAuthHeaders } = useAuth();
     const [insights, setInsights] = useState([]);
     const [insightsLoading, setInsightsLoading] = useState(false);
 
@@ -61,7 +61,7 @@ export default function Dashboard({ report, onRefresh, connectionId }) {
         setInsightsLoading(true);
         try {
             const res = await fetch(`${API}/api/insights/suggest?connectionId=${connectionId}`, {
-                headers: { 'X-Auth-User': user.id }
+                headers: getAuthHeaders()
             });
             if (res.ok) {
                 const data = await res.json();

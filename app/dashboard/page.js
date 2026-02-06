@@ -13,14 +13,14 @@ export default function DashboardStatsPage() {
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
-  const { user } = useAuth();
+  const { user, getAuthHeaders } = useAuth();
 
   useEffect(() => {
     setApiError(null);
     const fetchConns = async () => {
       try {
         const res = await fetch(`${API}/api/db/list`, {
-          headers: { 'X-Auth-User': user?.id || '' }
+          headers: getAuthHeaders()
         });
         if (res.ok) {
           const data = await res.json();
@@ -42,7 +42,7 @@ export default function DashboardStatsPage() {
     const fetchReport = async () => {
       try {
         const res = await fetch(`${API}/api/report/latest?connectionId=${selectedId}`, {
-          headers: { 'X-Auth-User': user.id }
+          headers: getAuthHeaders()
         });
         if (res.ok) {
           const data = await res.json();
@@ -56,7 +56,7 @@ export default function DashboardStatsPage() {
   const handleRefresh = async () => {
     if (!user?.id) return;
     setReport(null);
-    const headers = { 'X-Auth-User': user.id };
+    const headers = getAuthHeaders();
     try {
       const res = await fetch(`${API}/api/report/refresh?connectionId=${selectedId}`, {
         method: 'POST',

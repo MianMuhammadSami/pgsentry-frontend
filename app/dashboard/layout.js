@@ -62,6 +62,12 @@ export default function DashboardLayout({ children }) {
                 <polyline points="8 11 10 13 16 7"/>
             </svg>
         ),
+        analytics: (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 3v18h18"/>
+                <path d="m19 9-5 5-4-4-3 3"/>
+            </svg>
+        ),
         feedback: (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -77,6 +83,7 @@ export default function DashboardLayout({ children }) {
 
     const navItems = [
         { href: '/dashboard', label: 'Dashboard', icon: Icons.dashboard },
+        { href: '/dashboard/analytics', label: 'Advanced Analytics', icon: Icons.analytics },
         { href: '/dashboard/query-optimizer', label: 'Query Optimizer', icon: Icons.optimizer },
         { href: '/dashboard/databases', label: 'Databases', icon: Icons.databases },
         { href: '/dashboard/settings', label: 'Settings', icon: Icons.settings },
