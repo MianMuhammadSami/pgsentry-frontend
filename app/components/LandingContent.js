@@ -87,6 +87,32 @@ export default function LandingContent() {
                     </div>
                 </section>
 
+                {/* Video Demo Section */}
+                <section className="video-demo">
+                    <div className="section-header">
+                        <h2>See pgSentry in Action</h2>
+                        <p>Watch how easy it is to monitor your PostgreSQL databases</p>
+                    </div>
+                    <div className="video-wrapper fade-in">
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            src="https://www.youtube.com/embed/vrg8xV3tuiM?si=wH4alN5TqbU_5mLt"
+                            title="pgSentry Demo - PostgreSQL Monitoring Made Simple"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                            loading="lazy"
+                        ></iframe>
+                    </div>
+                    <div className="video-cta fade-in delay-100">
+                        <p className="video-note">
+                            This demo uses a sample database. Connect your production database to get <strong>real insights</strong> tailored to your workload — bloat analysis, query optimization, and replication monitoring specific to your setup.
+                        </p>
+                        <Link href="/login" className="btn primary">Connect Your Database</Link>
+                    </div>
+                </section>
+
                 {/* Features */}
                 <section className="features container">
                     <div className="section-header">
@@ -288,6 +314,56 @@ export default function LandingContent() {
                 }
                 .step-card h3 { font-size: 19px; margin-bottom: 10px; color: var(--foreground); }
                 .step-card p { font-size: 14px; color: var(--foreground-muted); line-height: 1.6; }
+
+                /* ── Video Demo ── */
+                .video-demo {
+                    padding: 96px 24px;
+                    background: var(--surface);
+                    border-top: 1px solid var(--border);
+                    border-bottom: 1px solid var(--border);
+                }
+                .video-wrapper {
+                    max-width: 1000px;
+                    margin: 0 auto;
+                    position: relative;
+                    height: 500px;
+                    max-height: 500px;
+                    overflow: hidden;
+                    border-radius: var(--radius-xl);
+                    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+                    border: 1px solid var(--border);
+                    background: #000;
+                }
+                .video-wrapper iframe {
+                    width: 100%;
+                    height: 500px;
+                    border: 0;
+                    border-radius: var(--radius-xl);
+                }
+                .video-cta {
+                    max-width: 1000px;
+                    margin: 32px auto 0;
+                    text-align: center;
+                    background: rgba(59,130,246,0.04);
+                    border: 1px solid rgba(59,130,246,0.15);
+                    border-radius: var(--radius-lg);
+                    padding: 28px 32px;
+                }
+                .video-note {
+                    font-size: 15px;
+                    color: var(--foreground-muted);
+                    line-height: 1.6;
+                    margin-bottom: 20px;
+                }
+                .video-note strong {
+                    color: var(--accent);
+                    font-weight: 600;
+                }
+                @media(max-width: 768px) {
+                    .video-demo { padding: 64px 16px; }
+                    .video-cta { padding: 24px 20px; margin-top: 24px; }
+                    .video-note { font-size: 14px; }
+                }
 
                 /* ── Features ── */
                 .features { padding: 96px 24px; background: var(--background); }
