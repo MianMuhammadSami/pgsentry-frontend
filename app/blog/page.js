@@ -1,6 +1,8 @@
-import Link from 'next/link';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
+import BlogList from './BlogList';
+import { BlogListBanner } from '../components/PgSentryBanner';
+import { BlogSidebar } from '../components/PgSentrySidebar';
 import { BLOG_POSTS } from './data';
 
 export const metadata = {
@@ -15,38 +17,27 @@ export const metadata = {
   alternates: { canonical: 'https://pgsentry.com/blog' },
 };
 
-function formatDate(dateStr) {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-}
-
 export default function BlogPage() {
-  const sorted = [...BLOG_POSTS].sort((a, b) => new Date(b.date) - new Date(a.date));
-
   return (
     <>
       <NavBar />
-      <main className="blog-main">
-        <div className="blog-hero">
-          <h1>Blog</h1>
-          <p className="blog-lead">
-            PostgreSQL tips, partitioning, indexing, slow queries, and how pgSentry helps you catch issues before they become incidents.
-          </p>
-        </div>
+      <div className="blog-container">
+        <main className="blog-main">
+          <div className="blog-hero">
+            <h1>PostgreSQL Blog</h1>
+            <p className="blog-lead">
+              Expert guides on PostgreSQL: from beginner installation to advanced optimization.
+              Learn indexing, performance tuning, security, and how pgSentry helps you monitor your database.
+            </p>
+          </div>
 
-        <div className="blog-list">
-          {sorted.map((post) => (
-            <article key={post.slug} className="blog-card">
-              <time dateTime={post.date} className="blog-date">{formatDate(post.date)}</time>
-              <h2 className="blog-title">
-                <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-              </h2>
-              <p className="blog-desc">{post.description}</p>
-              <Link href={`/blog/${post.slug}`} className="blog-link">Read more →</Link>
-            </article>
-          ))}
-        </div>
-      </main>
+          <BlogListBanner />
+
+          <BlogList posts={BLOG_POSTS} />
+        </main>
+
+        <BlogSidebar />
+      </div>
       <Footer />
     </>
   );

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
+import { BlogPostBanner, InlineCTABanner } from '../../components/PgSentryBanner';
+import { BlogSidebar } from '../../components/PgSentrySidebar';
 import { BLOG_POSTS } from '../data';
 
 export async function generateStaticParams() {
@@ -62,30 +64,38 @@ export default async function BlogPostPage({ params }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <NavBar />
-      <main className="blog-main blog-post">
-        <nav className="blog-breadcrumb" aria-label="Breadcrumb">
-          <Link href="/blog">Blog</Link>
-          <span className="sep">/</span>
-          <span className="current" aria-current="page">{post.title}</span>
-        </nav>
+      <div className="blog-container">
+        <main className="blog-main blog-post">
+          <nav className="blog-breadcrumb" aria-label="Breadcrumb">
+            <Link href="/blog">Blog</Link>
+            <span className="sep">/</span>
+            <span className="current" aria-current="page">{post.title}</span>
+          </nav>
 
-        <article>
-          <header className="post-header">
-            <time dateTime={post.date} className="post-date">{formatDate(post.date)}</time>
-            <h1 className="post-title">{post.title}</h1>
-            <p className="post-desc">{post.description}</p>
-          </header>
+          <BlogPostBanner postTitle={post.title} />
 
-          <div className="post-body">
-            {post.body}
-          </div>
+          <article>
+            <header className="post-header">
+              <time dateTime={post.date} className="post-date">{formatDate(post.date)}</time>
+              <h1 className="post-title">{post.title}</h1>
+              <p className="post-desc">{post.description}</p>
+            </header>
 
-          <footer className="post-footer">
-            <Link href="/blog" className="back-link">← All posts</Link>
-            <Link href="/" className="cta-link">Start monitoring with pgSentry →</Link>
-          </footer>
-        </article>
-      </main>
+            <div className="post-body">
+              {post.body}
+            </div>
+
+            <InlineCTABanner />
+
+            <footer className="post-footer">
+              <Link href="/blog" className="back-link">← All posts</Link>
+              <Link href="/request" className="cta-link">Get Free Database Analysis →</Link>
+            </footer>
+          </article>
+        </main>
+
+        <BlogSidebar postTitle={post.title} />
+      </div>
       <Footer />
     </>
   );

@@ -171,4 +171,221 @@ export const BLOG_POSTS = [
       </>
     ),
   },
+  {
+    slug: 'postgresql-installation-setup-guide-beginners',
+    title: 'PostgreSQL Installation Guide: Setup for Beginners on Windows, Mac, and Linux',
+    description: 'Complete beginner guide to installing PostgreSQL. Step-by-step instructions for Windows, macOS, Linux with Docker. First-time PGSQL setup made easy.',
+    date: '2025-02-16',
+    keywords: ['PostgreSQL installation', 'install PostgreSQL', 'PostgreSQL setup', 'PGSQL beginner', 'PostgreSQL Windows', 'PostgreSQL Mac', 'PostgreSQL Linux', 'PostgreSQL Docker'],
+    body: (
+      <>
+        <p>Starting with PostgreSQL? Installation is your first step, and it&apos;s easier than you think. PostgreSQL runs on Windows, macOS, and Linux, and you can have it running in minutes. This guide walks you through installation on each platform plus Docker for containerized setups.</p>
+        <p><strong>Windows:</strong> Download the installer from postgresql.org, run it, and follow the wizard. You&apos;ll set a password for the <code>postgres</code> superuser and choose components (pgAdmin is included for GUI management). Default port is 5432. After installation, verify with <code>psql --version</code> in Command Prompt.</p>
+        <p><strong>macOS:</strong> Use Homebrew for the simplest install: <code>brew install postgresql</code>. Start the service with <code>brew services start postgresql</code>. Alternatively, download Postgres.app for a GUI-based installation. Verify with <code>psql --version</code> in Terminal.</p>
+        <p><strong>Linux (Ubuntu/Debian):</strong> Use apt: <code>sudo apt update && sudo apt install postgresql postgresql-contrib</code>. The service starts automatically. Switch to the postgres user with <code>sudo -u postgres psql</code> to access the database.</p>
+        <p><strong>Docker:</strong> For isolated environments or development, use Docker: <code>docker run --name postgres -e POSTGRES_PASSWORD=yourpassword -p 5432:5432 -d postgres</code>. This pulls the latest PostgreSQL image and runs it in a container. Connect with <code>psql -h localhost -U postgres</code>.</p>
+        <p>After installation, create your first database with <code>CREATE DATABASE mydb;</code> and connect to it with <code>\c mydb</code>. You&apos;re now ready to create tables and run queries. Next, explore basic tools like psql (command line), pgAdmin (GUI), or modern clients like DBeaver.</p>
+        <p><strong>pgSentry</strong> helps you monitor your PostgreSQL database from day one. Connect your instance and get insights into performance, slow queries, and health—perfect for learning what good database behavior looks like as you grow.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'essential-postgresql-tools-beginners-must-have',
+    title: 'Essential PostgreSQL Tools Every Beginner Needs in 2026',
+    description: 'First time using PostgreSQL? Here are the must-have tools: psql, pgAdmin, monitoring, backup tools, and more. Complete PGSQL beginner toolkit.',
+    date: '2025-02-15',
+    keywords: ['PostgreSQL tools', 'PGSQL tools', 'psql', 'pgAdmin', 'PostgreSQL GUI', 'database tools', 'PostgreSQL beginners', 'pg_dump', 'PostgreSQL monitoring'],
+    body: (
+      <>
+        <p>When you&apos;re new to PostgreSQL, the ecosystem can feel overwhelming. Which tools do you actually need? Here&apos;s the essential toolkit that will take you from beginner to confident PGSQL user.</p>
+        <p><strong>1. psql (Command-Line Client):</strong> Comes with every PostgreSQL installation. It&apos;s the fastest way to run queries, manage databases, and debug. Learn basic commands like <code>\l</code> (list databases), <code>\dt</code> (list tables), <code>\d table_name</code> (describe table), and <code>\q</code> (quit). Mastering psql makes you faster and more confident.</p>
+        <p><strong>2. pgAdmin (GUI Client):</strong> The official PostgreSQL GUI. Perfect for visual database management—create tables with a point-and-click interface, write queries with autocomplete, visualize schemas, and monitor activity. Great for beginners who prefer GUIs over command-line tools. Download from pgadmin.org.</p>
+        <p><strong>3. DBeaver (Multi-Database Client):</strong> Modern, free, and cross-platform. Supports PostgreSQL plus dozens of other databases. Features include ER diagrams, SQL editor with autocomplete, data export/import, and built-in SSH tunneling. Ideal if you work with multiple database systems.</p>
+        <p><strong>4. pg_dump and pg_restore (Backup Tools):</strong> Built-in tools for backing up and restoring databases. <code>pg_dump mydb &gt; backup.sql</code> creates a backup; <code>psql mydb &lt; backup.sql</code> restores it. Essential for protecting your data and migrating between environments. Learn these early—backups save careers.</p>
+        <p><strong>5. pgSentry (Monitoring and Health):</strong> Even as a beginner, you need visibility. <strong>pgSentry</strong> monitors slow queries, connection counts, bloat, and more. You get weekly health reports that teach you what to watch for and alerts when something needs attention. It&apos;s like having a senior DBA reviewing your database.</p>
+        <p><strong>6. TablePlus or Postico (Modern GUI):</strong> Lightweight, fast, and beautiful GUI clients. Easier to learn than pgAdmin with cleaner interfaces. TablePlus supports multiple databases; Postico is Mac-only and PostgreSQL-focused. Both offer free tiers.</p>
+        <p><strong>7. Docker (Containerization):</strong> Not PostgreSQL-specific, but invaluable for running isolated test environments. Spin up a fresh PostgreSQL instance in seconds, experiment without affecting production, and tear it down when done. Essential for modern development workflows.</p>
+        <p>Start with psql and pgAdmin to get comfortable. Add pgSentry for monitoring, pg_dump for backups, and Docker for safe experimentation. As you grow, explore advanced tools like connection poolers (PgBouncer) and replication managers (Patroni).</p>
+      </>
+    ),
+  },
+  {
+    slug: 'postgresql-data-types-complete-guide',
+    title: 'PostgreSQL Data Types: Complete Guide for Choosing the Right Type',
+    description: 'Master PostgreSQL data types: integers, text, timestamps, JSON, arrays, and more. Learn which PGSQL type to use for optimal storage and performance.',
+    date: '2025-02-13',
+    keywords: ['PostgreSQL data types', 'PGSQL types', 'integer', 'varchar', 'text', 'timestamp', 'JSON', 'JSONB', 'arrays', 'PostgreSQL types guide'],
+    body: (
+      <>
+        <p>Choosing the right data type in PostgreSQL affects storage size, query performance, and data integrity. PostgreSQL offers rich type support—from basic integers and strings to advanced types like JSONB, arrays, and custom types. Here&apos;s what you need to know.</p>
+        <p><strong>Integer Types:</strong> Use <code>SMALLINT</code> for -32,768 to 32,767, <code>INTEGER</code> for -2 billion to 2 billion, and <code>BIGINT</code> for very large numbers. Use <code>SERIAL</code> for auto-incrementing IDs (it&apos;s an INTEGER with automatic sequence). Most apps use INTEGER for IDs unless you expect billions of rows—then use BIGINT.</p>
+        <p><strong>Text Types:</strong> <code>VARCHAR(n)</code> limits length to n characters, <code>TEXT</code> has no limit, and <code>CHAR(n)</code> pads with spaces (rarely needed). In PostgreSQL, TEXT and VARCHAR have the same performance—use TEXT for simplicity unless you need a length constraint for validation.</p>
+        <p><strong>Timestamps:</strong> Use <code>TIMESTAMP</code> for date + time without timezone, or <code>TIMESTAMPTZ</code> (timestamp with time zone) for storing UTC times. Always prefer TIMESTAMPTZ for application data—it stores in UTC and converts to your session&apos;s timezone on retrieval, preventing timezone bugs.</p>
+        <p><strong>JSON vs JSONB:</strong> <code>JSON</code> stores text as-is, <code>JSONB</code> stores binary format. JSONB is almost always the right choice: it&apos;s faster for queries, supports indexing with GIN, and validates JSON on insert. Use JSON only if you need to preserve exact formatting and whitespace.</p>
+        <p><strong>Arrays:</strong> PostgreSQL supports arrays for any data type: <code>INTEGER[]</code>, <code>TEXT[]</code>, etc. Useful for storing lists like tags or categories without creating a join table. Query with <code>ANY</code>, <code>ALL</code>, or <code>@&gt;</code> (contains) operators. Index with GIN for fast containment searches.</p>
+        <p><strong>Boolean:</strong> Simple <code>TRUE</code> or <code>FALSE</code>. Stored as a single byte. Always use BOOLEAN instead of integers or strings for true/false values—it&apos;s clearer and more efficient.</p>
+        <p><strong>UUID:</strong> 128-bit globally unique identifiers. Use <code>UUID</code> type with <code>gen_random_uuid()</code> for distributed systems where auto-increment IDs don&apos;t work. Slightly larger than BIGINT but eliminates collision risk.</p>
+        <p><strong>pgSentry</strong> helps you spot inefficient schemas—like using TEXT when VARCHAR with a limit would enforce data quality, or missing indexes on JSONB columns that are frequently queried. You get recommendations tailored to your actual usage.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'postgresql-transactions-acid-isolation-levels',
+    title: 'PostgreSQL Transactions and ACID: Understanding Isolation Levels and Concurrency',
+    description: 'Deep dive into PostgreSQL transactions, ACID properties, and isolation levels. Learn when to use Read Committed, Repeatable Read, and Serializable in PGSQL.',
+    date: '2025-02-11',
+    keywords: ['PostgreSQL transactions', 'ACID', 'isolation levels', 'PGSQL', 'Read Committed', 'Repeatable Read', 'Serializable', 'concurrency control'],
+    body: (
+      <>
+        <p>Transactions are the foundation of reliable database operations. PostgreSQL implements full ACID compliance: <strong>Atomicity</strong> (all or nothing), <strong>Consistency</strong> (data integrity), <strong>Isolation</strong> (concurrent transactions don&apos;t interfere), and <strong>Durability</strong> (committed data persists). Understanding isolation levels is key to building correct concurrent applications.</p>
+        <p>PostgreSQL offers three isolation levels: <strong>Read Committed</strong> (default), <strong>Repeatable Read</strong>, and <strong>Serializable</strong>. Each trades off between performance and consistency.</p>
+        <p><strong>Read Committed:</strong> Each statement sees data committed before it started. Other transactions&apos; changes become visible mid-transaction. This is the default and works for most applications. It prevents dirty reads but allows non-repeatable reads and phantom reads. Example: SELECT sees updated rows from concurrent transactions.</p>
+        <p><strong>Repeatable Read:</strong> All queries in a transaction see a snapshot of the database as of the transaction start. Prevents non-repeatable reads and phantom reads (in PostgreSQL—stricter than the SQL standard). Use when you need consistent reads across multiple queries, like generating reports or complex calculations. Concurrent updates may cause serialization errors—your app must retry.</p>
+        <p><strong>Serializable:</strong> Guarantees transactions execute as if they ran one at a time, even when running concurrently. Prevents all anomalies but has the highest performance cost. PostgreSQL uses <strong>Serializable Snapshot Isolation (SSI)</strong> to detect conflicts and abort transactions that would violate serializability. Use for financial systems, inventory management, or anywhere data consistency is critical.</p>
+        <p>Set isolation level per transaction: <code>BEGIN ISOLATION LEVEL REPEATABLE READ;</code> or per session: <code>SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL SERIALIZABLE;</code>.</p>
+        <p>Common concurrency issues: <strong>lost updates</strong> (two transactions update the same row—use SELECT FOR UPDATE to lock), <strong>write skew</strong> (transactions read overlapping data and write based on stale reads—use Serializable), and <strong>deadlocks</strong> (two transactions wait for each other—PostgreSQL detects and aborts one).</p>
+        <p><strong>pgSentry</strong> monitors long-running transactions and locks, alerting you when transactions are blocking others or when deadlocks occur frequently. You get visibility into transaction health without digging through logs.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'postgresql-json-jsonb-queries-indexing',
+    title: 'PostgreSQL JSON and JSONB: Querying, Indexing, and Best Practices',
+    description: 'Master PostgreSQL JSONB: store, query, and index JSON data efficiently. Complete guide to JSON operators, GIN indexes, and PGSQL JSON best practices.',
+    date: '2025-02-09',
+    keywords: ['PostgreSQL JSON', 'JSONB', 'JSON queries', 'PGSQL', 'JSON indexing', 'GIN index', 'JSON operators', 'NoSQL PostgreSQL'],
+    body: (
+      <>
+        <p>PostgreSQL&apos;s JSONB support makes it a powerful hybrid database—relational structure with NoSQL flexibility. You can store, query, and index JSON data natively without sacrificing ACID guarantees or SQL capabilities. Here&apos;s how to use JSONB effectively.</p>
+        <p><strong>JSON vs JSONB:</strong> Always use <code>JSONB</code> (binary JSON) instead of <code>JSON</code>. JSONB is faster for queries, supports indexing, and validates JSON structure on insert. JSON is plain text storage—only use it if you need to preserve exact formatting.</p>
+        <p><strong>Querying JSONB:</strong> Use <code>-&gt;</code> to extract JSON objects (returns JSONB), <code>-&gt;&gt;</code> to extract as text, <code>#&gt;</code> for nested paths, and <code>@&gt;</code> for containment. Examples: <code>data-&gt;&apos;user&apos;-&gt;&gt;&apos;name&apos;</code> extracts name as text; <code>data @&gt; &apos;{'{'}&#34;status&#34;: &#34;active&#34;{'}'}&apos;</code> finds rows where data contains that key-value.</p>
+        <p><strong>Indexing JSONB:</strong> Create a GIN index for fast containment queries: <code>CREATE INDEX idx_data ON table USING GIN (data);</code>. This speeds up <code>@&gt;</code>, <code>?</code>, <code>?|</code>, and <code>?&</code> operators. For specific keys, use expression indexes: <code>CREATE INDEX idx_status ON table ((data-&gt;&gt;&apos;status&apos;));</code> for faster equality checks.</p>
+        <p><strong>Common patterns:</strong> Store flexible user preferences, event payloads, configuration objects, or API responses as JSONB. Combine with relational columns—put frequently queried fields as columns and use JSONB for flexible metadata. Example: <code>users</code> table with <code>email</code> (indexed column) and <code>profile</code> (JSONB for bio, links, settings).</p>
+        <p><strong>Performance tips:</strong> Keep JSONB documents small (a few KB, not MB). Extract frequently queried fields into columns with indexes. Use partial indexes for specific JSON conditions: <code>CREATE INDEX idx_active ON table ((data-&gt;&gt;&apos;status&apos;)) WHERE data-&gt;&gt;&apos;status&apos; = &apos;active&apos;;</code>. Avoid querying deeply nested structures repeatedly—flatten into separate columns if needed.</p>
+        <p><strong>Aggregations and updates:</strong> Aggregate with <code>jsonb_agg</code> to build JSON arrays, <code>jsonb_object_agg</code> for objects. Update specific keys with <code>jsonb_set</code>: <code>UPDATE table SET data = jsonb_set(data, &apos;{'{'}key{'}'}&apos;, &apos;&#34;new value&#34;&apos;);</code>. Delete keys with <code>-</code> operator: <code>data - &apos;key&apos;</code>.</p>
+        <p><strong>pgSentry</strong> helps you identify slow JSONB queries and missing GIN indexes. You&apos;ll see which JSON columns are queried frequently without indexes, so you can optimize without guesswork.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'postgresql-backup-restore-strategies',
+    title: 'PostgreSQL Backup and Restore: Complete Guide to Data Protection Strategies',
+    description: 'Protect your PostgreSQL data with the right backup strategy. Learn pg_dump, pg_basebackup, WAL archiving, PITR, and cloud backups for PGSQL.',
+    date: '2025-02-07',
+    keywords: ['PostgreSQL backup', 'pg_dump', 'pg_basebackup', 'PGSQL backup', 'database backup', 'point in time recovery', 'PITR', 'WAL archiving'],
+    body: (
+      <>
+        <p>Backups are non-negotiable. Disk failures, accidental deletes, ransomware, or bad migrations can destroy your data in seconds. PostgreSQL offers multiple backup strategies—logical, physical, and continuous archiving. The right approach depends on your data size, recovery time objectives (RTO), and recovery point objectives (RPO).</p>
+        <p><strong>Logical Backups (pg_dump):</strong> Exports database as SQL or custom format. Use <code>pg_dump dbname &gt; backup.sql</code> for plain SQL or <code>pg_dump -Fc dbname &gt; backup.dump</code> for compressed custom format. Restore with <code>psql dbname &lt; backup.sql</code> or <code>pg_restore -d dbname backup.dump</code>. Pros: portable, easy to restore specific tables, works across PostgreSQL versions. Cons: slow for large databases (100+ GB), downtime during restore.</p>
+        <p><strong>Physical Backups (pg_basebackup):</strong> Copies the entire data directory at the file level. Use <code>pg_basebackup -D /backup/dir -Ft -z -P</code> to create a compressed tarball. Pros: fast for large databases, exact binary copy. Cons: must restore to same PostgreSQL major version, requires more disk space, can&apos;t restore individual tables.</p>
+        <p><strong>Continuous Archiving and PITR (Point-In-Time Recovery):</strong> Combines a base backup with WAL (Write-Ahead Log) archiving. Configure <code>archive_mode = on</code> and <code>archive_command</code> in postgresql.conf to copy WAL files to safe storage. Take periodic base backups with pg_basebackup. To restore, apply the base backup and replay WAL files up to a specific timestamp. Pros: minimal data loss (RPO in seconds), restore to any point in time. Cons: complex setup, requires monitoring WAL archiving.</p>
+        <p><strong>Cloud-Managed Backups:</strong> Services like AWS RDS, Google Cloud SQL, and Azure Database for PostgreSQL offer automated backups with point-in-time recovery. Pros: fully managed, no configuration. Cons: vendor lock-in, higher cost, limited control over backup location.</p>
+        <p><strong>Backup Best Practices:</strong> Automate backups with cron jobs or systemd timers. Test restores regularly—untested backups are useless. Store backups off-site (different datacenter, cloud storage like S3). Encrypt backups for sensitive data. Monitor backup success and storage space—failed backups are silent killers.</p>
+        <p><strong>Backup Tools:</strong> Use <strong>pgBackRest</strong> or <strong>Barman</strong> for enterprise-grade backup management—both support incremental backups, compression, encryption, and automated retention policies. For simple setups, pg_dump with cron is enough.</p>
+        <p><strong>pgSentry</strong> doesn&apos;t replace backups, but it monitors your database health so you catch issues before they require restoring from backup. It tracks bloat, slow queries, and replication lag—preventing data loss scenarios in the first place.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'postgresql-foreign-keys-constraints-relationships',
+    title: 'PostgreSQL Foreign Keys and Constraints: Enforcing Data Integrity',
+    description: 'Master PostgreSQL constraints: foreign keys, unique, check, not null. Learn how to enforce referential integrity and data quality in PGSQL.',
+    date: '2025-02-05',
+    keywords: ['PostgreSQL foreign keys', 'constraints', 'PGSQL', 'referential integrity', 'unique constraint', 'check constraint', 'database design'],
+    body: (
+      <>
+        <p>Constraints are PostgreSQL&apos;s way of enforcing data integrity at the database level. Instead of relying on application code to validate data, constraints guarantee correctness—preventing invalid data from ever being inserted. Here&apos;s how to use them effectively.</p>
+        <p><strong>Foreign Keys:</strong> Enforce referential integrity between tables. Example: <code>orders</code> table references <code>users</code> via <code>user_id</code>. Define with <code>FOREIGN KEY (user_id) REFERENCES users(id)</code>. PostgreSQL prevents inserting orders with non-existent user_id and (by default) prevents deleting users with existing orders. Use <code>ON DELETE CASCADE</code> to auto-delete child rows or <code>ON DELETE SET NULL</code> to nullify references.</p>
+        <p><strong>Unique Constraints:</strong> Ensure column values are unique across rows. Use <code>UNIQUE (email)</code> to prevent duplicate emails. Unlike primary keys, unique constraints allow multiple NULLs (since NULL ≠ NULL in SQL). Create multi-column unique constraints for composite uniqueness: <code>UNIQUE (tenant_id, username)</code>.</p>
+        <p><strong>Check Constraints:</strong> Enforce arbitrary conditions. Examples: <code>CHECK (age &gt;= 18)</code>, <code>CHECK (price &gt; 0)</code>, <code>CHECK (status IN (&apos;active&apos;, &apos;inactive&apos;, &apos;pending&apos;))</code>. PostgreSQL validates on every INSERT and UPDATE. Keep checks simple—complex logic should go in triggers or application code.</p>
+        <p><strong>Not Null Constraints:</strong> Prevent NULL values. Use <code>NOT NULL</code> on columns that must always have a value, like <code>email NOT NULL</code>. This is stricter than check constraints and clearer to read.</p>
+        <p><strong>Primary Keys:</strong> Combination of UNIQUE and NOT NULL. Every table should have a primary key—usually an auto-incrementing <code>SERIAL</code> or <code>BIGSERIAL</code> column named <code>id</code>. Primary keys are automatically indexed for fast lookups.</p>
+        <p><strong>Performance considerations:</strong> Foreign key checks add overhead on writes—PostgreSQL must verify the referenced row exists. Index the foreign key column for fast lookups: <code>CREATE INDEX idx_user_id ON orders(user_id);</code>. Unique constraints create implicit indexes automatically.</p>
+        <p><strong>Deferrable constraints:</strong> By default, constraints are checked immediately. Use <code>DEFERRABLE INITIALLY DEFERRED</code> to delay checks until transaction commit—useful for circular foreign keys or bulk imports where rows are temporarily invalid.</p>
+        <p><strong>pgSentry</strong> helps you identify missing foreign key indexes (a common performance issue) and tables without primary keys. You get recommendations to improve schema design and query performance.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'postgresql-security-best-practices',
+    title: 'PostgreSQL Security Best Practices: Hardening Your Database in Production',
+    description: 'Secure your PostgreSQL database: authentication, SSL, roles, permissions, pg_hba.conf, and more. Complete PGSQL security hardening guide.',
+    date: '2025-02-03',
+    keywords: ['PostgreSQL security', 'PGSQL security', 'database security', 'pg_hba.conf', 'SSL', 'roles', 'permissions', 'authentication'],
+    body: (
+      <>
+        <p>PostgreSQL security is multi-layered: network access, authentication, authorization, and encryption. A single misconfiguration can expose sensitive data or allow unauthorized access. Here&apos;s how to lock down your database for production.</p>
+        <p><strong>1. Restrict Network Access:</strong> Use <code>pg_hba.conf</code> to control which hosts can connect. Default <code>trust</code> authentication allows passwordless local connections—change it to <code>md5</code> or <code>scram-sha-256</code> (stronger). Example: <code>host all all 0.0.0.0/0 scram-sha-256</code> requires password for all remote connections. Prefer <code>hostssl</code> to enforce SSL encryption.</p>
+        <p><strong>2. Enable SSL/TLS:</strong> Encrypt connections to prevent eavesdropping. Set <code>ssl = on</code> in postgresql.conf and configure certificates. Clients connect with <code>sslmode=require</code> or <code>sslmode=verify-full</code> (validates server certificate). Never send passwords over unencrypted connections.</p>
+        <p><strong>3. Use Strong Authentication:</strong> Prefer <code>scram-sha-256</code> over <code>md5</code> for password hashing. Rotate passwords regularly. For cloud or enterprise environments, use certificate-based authentication or integrate with LDAP/Active Directory. Avoid storing passwords in connection strings—use environment variables or secret managers.</p>
+        <p><strong>4. Implement Role-Based Access Control (RBAC):</strong> Never use the <code>postgres</code> superuser for applications. Create roles with minimal privileges: <code>CREATE ROLE app_user WITH LOGIN PASSWORD &apos;...&apos;;</code>. Grant only necessary permissions: <code>GRANT SELECT, INSERT, UPDATE ON table TO app_user;</code>. Use <code>GRANT USAGE ON SCHEMA</code> to control schema access.</p>
+        <p><strong>5. Principle of Least Privilege:</strong> Applications should have read/write access only to their tables, not superuser privileges. Create separate roles for read-only analytics, migrations (with DDL rights), and application writes. Revoke public permissions: <code>REVOKE ALL ON DATABASE dbname FROM PUBLIC;</code>.</p>
+        <p><strong>6. Audit and Logging:</strong> Enable query logging for security audits. Set <code>log_connections = on</code>, <code>log_disconnections = on</code>, and <code>log_statement = &apos;ddl&apos;</code> to log schema changes. Use <code>pgaudit</code> extension for detailed audit trails in regulated industries.</p>
+        <p><strong>7. Prevent SQL Injection:</strong> Always use parameterized queries or prepared statements—never concatenate user input into SQL strings. PostgreSQL supports <code>$1</code>, <code>$2</code> placeholders for safe query parameterization. ORMs like SQLAlchemy and ActiveRecord do this automatically.</p>
+        <p><strong>8. Row-Level Security (RLS):</strong> Enforce data isolation at the row level. Example: multi-tenant apps where users should only see their own data. Enable RLS on a table: <code>ALTER TABLE table ENABLE ROW LEVEL SECURITY;</code> and create policies: <code>CREATE POLICY tenant_isolation ON table USING (tenant_id = current_setting(&apos;app.tenant_id&apos;)::int);</code>.</p>
+        <p><strong>pgSentry</strong> monitors database activity, highlighting unusual connection patterns, failed login attempts, and permission changes. You get alerts when security-relevant events occur, so you can respond before a breach.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'postgresql-window-functions-guide',
+    title: 'PostgreSQL Window Functions: Advanced SQL for Analytics and Reporting',
+    description: 'Master PostgreSQL window functions: ROW_NUMBER, RANK, LAG, LEAD, and more. Write powerful analytical queries with PGSQL window functions.',
+    date: '2025-02-02',
+    keywords: ['PostgreSQL window functions', 'PGSQL', 'ROW_NUMBER', 'RANK', 'PARTITION BY', 'SQL analytics', 'LAG', 'LEAD', 'advanced SQL'],
+    body: (
+      <>
+        <p>Window functions are PostgreSQL&apos;s superpower for analytics, reporting, and complex aggregations. Unlike GROUP BY, window functions compute across rows <em>without collapsing them</em>—you get aggregated values alongside individual row data. This unlocks queries that are impossible or painful with standard SQL.</p>
+        <p><strong>Basic syntax:</strong> <code>function() OVER (PARTITION BY column ORDER BY column)</code>. The <code>OVER</code> clause defines the window. <code>PARTITION BY</code> groups rows (like GROUP BY), <code>ORDER BY</code> orders within each partition, and the frame clause (optional) defines the row range to compute over.</p>
+        <p><strong>ROW_NUMBER():</strong> Assigns unique sequential numbers within each partition. Example: <code>ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY created_at DESC)</code> numbers each user&apos;s rows from newest to oldest. Use it to get the top N rows per group: <code>WHERE row_num &lt;= 5</code>.</p>
+        <p><strong>RANK() and DENSE_RANK():</strong> Assign ranks, handling ties differently. <code>RANK()</code> leaves gaps (1, 2, 2, 4), <code>DENSE_RANK()</code> doesn&apos;t (1, 2, 2, 3). Example: rank sales by revenue within each region: <code>RANK() OVER (PARTITION BY region ORDER BY revenue DESC)</code>.</p>
+        <p><strong>LAG() and LEAD():</strong> Access previous or next row values. <code>LAG(column, 1)</code> gets the previous row&apos;s value, <code>LEAD(column, 1)</code> gets the next. Example: calculate day-over-day change: <code>value - LAG(value) OVER (ORDER BY date)</code>. Perfect for time-series analysis.</p>
+        <p><strong>SUM(), AVG(), COUNT() as window functions:</strong> Compute running totals or moving averages. Example: running total of sales: <code>SUM(amount) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)</code>. 7-day moving average: <code>AVG(value) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)</code>.</p>
+        <p><strong>FIRST_VALUE() and LAST_VALUE():</strong> Get first or last value in the window. Example: compare each row to the partition&apos;s first value: <code>value - FIRST_VALUE(value) OVER (PARTITION BY category ORDER BY date)</code>. Useful for calculating changes from a baseline.</p>
+        <p><strong>Frame clauses:</strong> Define the row range for computation. <code>ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</code> includes all rows from start to current (running total). <code>RANGE BETWEEN 1 PRECEDING AND 1 FOLLOWING</code> uses value-based ranges instead of physical rows. Defaults to RANGE UNBOUNDED PRECEDING to CURRENT ROW.</p>
+        <p><strong>Performance tips:</strong> Window functions can be expensive on large datasets. Index columns used in <code>PARTITION BY</code> and <code>ORDER BY</code>. Avoid redundant window clauses—define once with <code>WINDOW w AS (...)</code> and reuse: <code>ROW_NUMBER() OVER w</code>. Use CTEs to break complex queries into readable steps.</p>
+        <p><strong>pgSentry</strong> identifies slow analytical queries and highlights missing indexes on partition and order columns. You get visibility into which window function queries need optimization.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'postgresql-common-table-expressions-cte-recursive',
+    title: 'PostgreSQL CTEs (WITH Queries): Simplify Complex Queries with Common Table Expressions',
+    description: 'Master PostgreSQL Common Table Expressions (CTEs) and recursive queries. Learn WITH syntax, recursive CTEs, and PGSQL query organization.',
+    date: '2025-01-30',
+    keywords: ['PostgreSQL CTE', 'Common Table Expressions', 'WITH query', 'recursive CTE', 'PGSQL', 'SQL optimization', 'query readability'],
+    body: (
+      <>
+        <p>Common Table Expressions (CTEs) make complex SQL readable and maintainable. Using the <code>WITH</code> clause, you define temporary named result sets that exist only for the query. CTEs are perfect for breaking down multi-step logic, improving readability, and (with recursive CTEs) querying hierarchical data.</p>
+        <p><strong>Basic CTE syntax:</strong> <code>WITH cte_name AS (SELECT ...) SELECT * FROM cte_name;</code>. The CTE runs first, then the main query references it like a table. You can chain multiple CTEs: <code>WITH cte1 AS (...), cte2 AS (SELECT * FROM cte1) SELECT * FROM cte2;</code>.</p>
+        <p><strong>Why use CTEs?</strong> Readability—complex queries become step-by-step logic. Reusability—reference the same subquery multiple times without repeating code. Debugging—test each CTE independently. Alternative to subqueries and temp tables without the overhead.</p>
+        <p><strong>Recursive CTEs:</strong> Query hierarchical or graph data like org charts, categories, or bill of materials. Syntax: <code>WITH RECURSIVE cte AS (base_query UNION ALL recursive_query) SELECT * FROM cte;</code>. Base query provides starting rows, recursive query references the CTE itself to traverse relationships.</p>
+        <p><strong>Example: Employee hierarchy:</strong> <code>WITH RECURSIVE emp_tree AS (SELECT id, name, manager_id, 1 AS level FROM employees WHERE manager_id IS NULL UNION ALL SELECT e.id, e.name, e.manager_id, et.level + 1 FROM employees e JOIN emp_tree et ON e.manager_id = et.id) SELECT * FROM emp_tree ORDER BY level;</code>. Starts with top-level managers (NULL manager_id), then recursively finds their reports.</p>
+        <p><strong>Performance considerations:</strong> CTEs in PostgreSQL 12+ are inlined (optimized like subqueries) unless you add <code>MATERIALIZED</code>: <code>WITH cte AS MATERIALIZED (...)</code> forces evaluation once and reuse. Use <code>MATERIALIZED</code> when the CTE is expensive and referenced multiple times. Use <code>NOT MATERIALIZED</code> to force inlining for better optimization.</p>
+        <p><strong>Recursive CTE gotchas:</strong> Infinite loops—ensure the recursive part eventually returns no rows (use WHERE conditions or limits). Performance—unbounded recursion can be slow; add <code>WHERE level &lt; 10</code> to limit depth. Cycles—use an array to track visited nodes: <code>SELECT ..., path || id AS path FROM cte WHERE NOT id = ANY(path)</code>.</p>
+        <p><strong>CTEs vs subqueries:</strong> CTEs are more readable and reusable. Subqueries are evaluated per reference (unless optimized away). CTEs can be materialized for explicit control. Use CTEs for complex multi-step queries; use subqueries for simple one-off filters.</p>
+        <p><strong>pgSentry</strong> helps you identify slow CTEs and recursive queries that might benefit from indexing or query restructuring. You get insights into execution plans so you can optimize without guesswork.</p>
+      </>
+    ),
+  },
+  {
+    slug: 'postgresql-full-text-search-guide',
+    title: 'PostgreSQL Full-Text Search: Build Search Without Elasticsearch',
+    description: 'Implement full-text search in PostgreSQL with tsvector, tsquery, and GIN indexes. Build powerful search features natively in PGSQL.',
+    date: '2025-01-27',
+    keywords: ['PostgreSQL full-text search', 'tsvector', 'tsquery', 'PGSQL search', 'GIN index', 'text search', 'PostgreSQL search'],
+    body: (
+      <>
+        <p>PostgreSQL has built-in full-text search capabilities that rival dedicated search engines for many use cases. You can implement ranked search, fuzzy matching, and phrase queries without adding Elasticsearch or Solr. For small to medium datasets (millions of documents), PostgreSQL full-text search is fast, simple, and integrated.</p>
+        <p><strong>Core concepts:</strong> <code>tsvector</code> stores preprocessed document text (normalized, stemmed, stop words removed). <code>tsquery</code> represents search queries with operators like AND, OR, NOT. <code>to_tsvector()</code> converts text to tsvector; <code>to_tsquery()</code> or <code>plainto_tsquery()</code> converts strings to tsquery. Match with <code>@@</code> operator: <code>tsvector @@ tsquery</code>.</p>
+        <p><strong>Basic search:</strong> <code>SELECT * FROM articles WHERE to_tsvector(&apos;english&apos;, title || &apos; &apos; || body) @@ plainto_tsquery(&apos;english&apos;, &apos;postgres search&apos;);</code>. This searches title and body for "postgres" and "search" (stemmed to root forms). The <code>english</code> config handles English stop words and stemming.</p>
+        <p><strong>Indexing for performance:</strong> Create a GIN index on the tsvector column: <code>CREATE INDEX idx_fts ON articles USING GIN (to_tsvector(&apos;english&apos;, title || &apos; &apos; || body));</code>. This speeds up searches from sequential scans to index lookups. For frequently updated tables, use a generated column: <code>ALTER TABLE articles ADD COLUMN fts tsvector GENERATED ALWAYS AS (to_tsvector(&apos;english&apos;, title || &apos; &apos; || body)) STORED; CREATE INDEX idx_fts ON articles USING GIN (fts);</code>.</p>
+        <p><strong>Ranking results:</strong> Use <code>ts_rank()</code> or <code>ts_rank_cd()</code> to score relevance: <code>SELECT *, ts_rank(to_tsvector(&apos;english&apos;, body), query) AS rank FROM articles, plainto_tsquery(&apos;english&apos;, &apos;postgres&apos;) query WHERE to_tsvector(&apos;english&apos;, body) @@ query ORDER BY rank DESC;</code>. Higher rank means better match.</p>
+        <p><strong>Advanced queries:</strong> Use <code>to_tsquery()</code> for boolean logic: <code>to_tsquery(&apos;postgres &amp; (search | query)&apos;)</code> finds documents with "postgres" AND ("search" OR "query"). Use <code>&lt;-&gt;</code> for phrase proximity: <code>to_tsquery(&apos;postgres &lt;-&gt; database&apos;)</code> matches "postgres database" with words adjacent. Use <code>:*</code> for prefix matching: <code>to_tsquery(&apos;post:*&apos;)</code> matches "post", "postgres", "postfix".</p>
+        <p><strong>Multi-language support:</strong> PostgreSQL includes configs for 20+ languages (english, french, german, etc.). Specify during conversion: <code>to_tsvector(&apos;french&apos;, text)</code>. Each config has language-specific stop words and stemming rules.</p>
+        <p><strong>Limitations:</strong> No built-in fuzzy matching (use pg_trgm extension for trigram similarity). Ranking is simpler than Elasticsearch&apos;s relevance algorithms. Suitable for up to ~10M documents; beyond that, consider dedicated search engines. No distributed search (single-node only).</p>
+        <p><strong>pgSentry</strong> monitors query performance, helping you identify slow full-text searches that need better indexes or query optimization. You get visibility into search workload patterns.</p>
+      </>
+    ),
+  },
 ];
