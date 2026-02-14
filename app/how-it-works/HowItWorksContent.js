@@ -479,6 +479,8 @@ SSL: Required`}</pre>
                     border-radius: var(--radius-lg);
                     overflow: hidden;
                     box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                    max-width: 100%;
+                    width: 100%;
                 }
                 .code-header {
                     background: #2d2d2d;
@@ -487,6 +489,9 @@ SSL: Required`}</pre>
                     font-size: 12px;
                     font-weight: 600;
                     border-bottom: 1px solid #333;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
                 .code-sample pre {
                     margin: 0;
@@ -495,6 +500,8 @@ SSL: Required`}</pre>
                     font-size: 13px;
                     line-height: 1.6;
                     overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    max-width: 100%;
                 }
 
                 /* Metrics Preview */
@@ -626,16 +633,31 @@ SSL: Required`}</pre>
                         gap: 40px;
                         direction: ltr;
                     }
+                    .step-content, .step-visual {
+                        min-width: 0;
+                    }
                     .hero h1 { font-size: 36px; }
                     .video-wrapper { height: 400px; }
                     .video-wrapper iframe { height: 400px; }
                     .metrics-preview { grid-template-columns: 1fr; }
+                    .code-sample pre {
+                        font-size: 11px;
+                        padding: 16px;
+                    }
+                    .code-header {
+                        font-size: 11px;
+                        padding: 8px 12px;
+                    }
                 }
                 @media(max-width: 680px) {
                     .hero { padding-top: 80px; }
                     .cta-buttons { flex-direction: column; align-items: center; }
                     .video-wrapper { height: 300px; }
                     .video-wrapper iframe { height: 300px; }
+                    .code-sample pre {
+                        font-size: 10px;
+                        padding: 12px;
+                    }
                 }
             `}</style>
         </>

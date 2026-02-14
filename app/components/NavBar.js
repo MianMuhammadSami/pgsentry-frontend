@@ -183,8 +183,11 @@ export default function NavBar() {
                     border-radius: var(--radius);
                     cursor: pointer;
                     transition: background 0.2s, border-color 0.2s;
+                    -webkit-tap-highlight-color: transparent;
+                    touch-action: manipulation;
                 }
-                .nav-toggle:hover {
+                .nav-toggle:hover,
+                .nav-toggle:active {
                     background: #f3f4f6;
                     border-color: var(--foreground-subtle);
                 }
