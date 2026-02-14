@@ -26,6 +26,7 @@ export default function NavBar() {
 
     const navLinks = [
         { href: '/', label: 'Home' },
+        { href: '/how-it-works', label: 'How It Works' },
         { href: '/request', label: 'Features' },
         { href: '/analysis', label: 'Free Analysis' },
         { href: '/blog', label: 'Blog', active: isBlogActive },
@@ -42,6 +43,7 @@ export default function NavBar() {
 
                 <div className="nav-links">
                     <Link href="/" className={`nav-link ${isActive('/')}`}>Home</Link>
+                    <Link href="/how-it-works" className={`nav-link ${isActive('/how-it-works')}`}>How It Works</Link>
                     <Link href="/request" className={`nav-link ${isActive('/request')}`}>Features</Link>
                     <Link href="/analysis" className={`nav-link ${isActive('/analysis')}`}>Free Analysis</Link>
                     <Link href="/blog" className={`nav-link ${isBlogActive ? 'active' : ''}`}>Blog</Link>

@@ -67,6 +67,7 @@ export default function LandingContent() {
                     <div className="section-header">
                         <h2>How it works</h2>
                         <p>Three simple steps to full visibility.</p>
+                        <Link href="/how-it-works" className="learn-more-link">Learn More →</Link>
                     </div>
                     <div className="steps-grid">
                         <div className="step-card fade-in">
@@ -284,6 +285,19 @@ export default function LandingContent() {
                 }
                 .section-header h2 { font-size: 36px; margin-bottom: 10px; color: var(--foreground); }
                 .section-header p { font-size: 17px; color: var(--foreground-muted); }
+                .learn-more-link {
+                    display: inline-block;
+                    margin-top: 12px;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: var(--accent);
+                    text-decoration: none;
+                    transition: color 0.2s, transform 0.2s;
+                }
+                .learn-more-link:hover {
+                    color: var(--accent-dark);
+                    transform: translateX(4px);
+                }
 
                 /* ── How it works ── */
                 .how-it-works { padding: 96px 24px; }

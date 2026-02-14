@@ -23,6 +23,12 @@ export default function sitemap() {
         },
         ...blogUrls,
         {
+            url: 'https://pgsentry.com/how-it-works',
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.9,
+        },
+        {
             url: 'https://pgsentry.com/about',
             lastModified: new Date(),
             changeFrequency: 'monthly',
