@@ -2,7 +2,7 @@ import LandingContent from './components/LandingContent';
 
 export const metadata = {
   title: "pgSentry - PostgreSQL Monitoring & Health Checks",
-  description: "Detect replication lag, bloat, slow queries, and indexing issues. pgSentry is the micro-DBA for Postgres teams using RDS, Supabase, Neon, or self-hosted PostgreSQL. Free health check.",
+  description: "PostgreSQL monitoring for RDS, Supabase, Neon & self-hosted. Detect replication lag, bloat, slow queries before they become incidents. Free health check.",
   keywords: [
     "PostgreSQL", "Postgres", "PGSQL", "database monitoring", "Postgres health check",
     "replication lag", "slow queries", "Postgres bloat", "partitioning", "indexing",
